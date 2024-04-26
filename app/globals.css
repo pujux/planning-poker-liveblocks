@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.avatar:before {
+  content: attr(data-tooltip);
+  @apply absolute z-50 px-2 py-1 mt-2 text-xs -translate-x-1/2 bg-gray-100 border border-gray-400 rounded-md shadow-md text-gray-950 left-1/2 top-full whitespace-nowrap;
+}

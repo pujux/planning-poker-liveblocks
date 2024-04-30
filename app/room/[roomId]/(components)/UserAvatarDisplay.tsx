@@ -25,7 +25,7 @@ export default function UserAvatarDisplay({ style = "open-peeps" }: { style?: st
     }
   };
 
-  const Avatar = ({ username = "Unknown", userId, index }: { username?: string; userId?: string; index: number }) => {
+  const Avatar = ({ username = "Unknown", userId, index }: { username?: string; userId: string; index: number }) => {
     return (
       <li className="w-1/3 md:w-1/5 lg:w-auto">
         <div
@@ -36,10 +36,15 @@ export default function UserAvatarDisplay({ style = "open-peeps" }: { style?: st
           }`}
           style={{ zIndex: 50 - index }}
         >
-          {estimatesRevealed && userId ? (
+          {estimatesRevealed ? (
             <div className="flex items-center justify-center w-full h-full text-xl font-bold">{estimates.get(userId) ?? "?"}</div>
           ) : (
-            <Image width={48} height={48} src={`https://api.dicebear.com/8.x/${style}/svg?seed=${userId ?? Math.random() * 1e6}`} alt={username} />
+            <>
+              {estimates.get(userId) && (
+                <div className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-red-500 rounded-full"></div>
+              )}
+              <Image width={48} height={48} src={`https://api.dicebear.com/8.x/${style}/svg?seed=${userId ?? Math.random() * 1e6}`} alt={username} />
+            </>
           )}
         </div>
       </li>

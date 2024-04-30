@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useMutation, useMyPresence, useOthers, useStorage } from "../../../../liveblocks.config";
+import { useEffect } from "react";
+import { useMutation, useMyPresence, useStorage } from "../../../../liveblocks.config";
 import { useSessionStorage } from "@/app/utils/useSessionStorage";
-import { uniqueNamesGenerator, adjectives, animals } from "unique-names-generator";
 import { LiveMap, shallow } from "@liveblocks/client";
 
 const estimationValues = ["/", "0", "1", "2", "3", "5", "8", "13"];

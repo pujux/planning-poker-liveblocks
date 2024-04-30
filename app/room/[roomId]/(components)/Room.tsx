@@ -28,10 +28,11 @@ export function Room() {
     }
   }, [userInfo, presence.id, updatePresence, setUserInfo]);
 
+  const clearEstimate = useMutation(({ storage }) => storage.get("data").get("estimates").delete(userInfo.id!), [userInfo.id]);
   const clearEstimates = useMutation(({ storage }) => storage.get("data").set("estimates", new LiveMap()), []);
   const updateEstimate = useMutation(
-    ({ storage }, userId: string, estimate: string) => storage.get("data").get("estimates").set(userId, estimate),
-    []
+    ({ storage }, estimate: string) => storage.get("data").get("estimates").set(userInfo.id!, estimate),
+    [userInfo.id]
   );
   const setEstimatesRevealed = useMutation(
     ({ storage }, estimatesRevealed: boolean) => storage.get("data").set("estimatesRevealed", estimatesRevealed),
@@ -44,7 +45,7 @@ export function Room() {
         {estimationValues.map((val) => (
           <li key={val} className="aspect-video">
             <button
-              onClick={() => updateEstimate(userInfo.id!, val)}
+              onClick={() => updateEstimate(val)}
               className={`flex items-center justify-center w-full h-full text-2xl font-bold text-gray-100 transition-colors bg-gray-500 border rounded-md shadow-md hover:bg-gray-400 ${
                 selfEstimate === val ? "border-green-500 border-4" : "border-gray-300"
               }`}
@@ -60,6 +61,12 @@ export function Room() {
           onClick={() => setEstimatesRevealed(!estimatesRevealed)}
         >
           {estimatesRevealed ? "Hide all" : "Reveal all"}
+        </button>
+        <button
+          className="px-4 py-2 text-gray-100 transition-colors bg-gray-500 border border-gray-300 rounded-md shadow-md hover:bg-gray-400"
+          onClick={clearEstimate}
+        >
+          Clear
         </button>
         <button
           className="px-4 py-2 text-gray-100 transition-colors bg-gray-500 border border-gray-300 rounded-md shadow-md hover:bg-gray-400"

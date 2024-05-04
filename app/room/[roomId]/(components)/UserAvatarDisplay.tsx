@@ -25,9 +25,19 @@ export default function UserAvatarDisplay({ style = "open-peeps" }: { style?: st
     }
   };
 
-  const Avatar = ({ username = "Unknown", userId, index }: { username?: string; userId: string; index: number }) => {
+  const Avatar = ({
+    username = "Unknown",
+    userId,
+    index,
+    isSpectator,
+  }: {
+    username?: string;
+    userId: string;
+    index: number;
+    isSpectator: boolean;
+  }) => {
     return (
-      <li className="w-1/3 md:w-1/5 lg:w-auto">
+      <li className={`w-1/3 md:w-1/5 lg:w-auto ${isSpectator ? "opacity-50" : ""}`}>
         <div
           onClick={index === 0 ? handleChangeUsername : undefined}
           data-tooltip={username}
@@ -53,10 +63,12 @@ export default function UserAvatarDisplay({ style = "open-peeps" }: { style?: st
 
   return (
     <ul className="flex flex-wrap gap-4 gap-y-16 justify-evenly">
-      <Avatar index={0} key={0} username={presence.username} userId={presence.id} />
-      {others.map(({ username, id }, i) => (
-        <Avatar index={i + 1} key={i + 1} username={username} userId={id} />
-      ))}
+      <Avatar index={0} key={0} username={presence.username} userId={presence.id} isSpectator={presence.isSpectator} />
+      {others
+        .sort((a, b) => +a.isSpectator - +b.isSpectator)
+        .map(({ username, id, isSpectator }, i) => (
+          <Avatar index={i + 1} key={i + 1} username={username} userId={id} isSpectator={isSpectator} />
+        ))}
     </ul>
   );
 }

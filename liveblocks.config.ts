@@ -12,7 +12,8 @@ const client = createClient({
 // `user.presence` property. Must be JSON-serializable.
 type Presence = {
   id: string;
-  username?: string;
+  username: string;
+  isSpectator: boolean;
 };
 
 // Optionally, Storage represents the shared document that persists in the

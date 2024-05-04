@@ -1,11 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { adjectives, colors, uniqueNamesGenerator, animals } from "unique-names-generator";
 
 export default function Page() {
   const router = useRouter();
   const handleRoomCreate = () => {
-    router.push(`/room/${Math.floor(Math.random() * 1e10).toString(16)}`);
+    router.push(`/room/${uniqueNamesGenerator({ dictionaries: [adjectives, colors, animals], length: 3, separator: "-", seed: Date.now() })}`);
   };
 
   return (

@@ -14,6 +14,7 @@ export default function Page({ params: { roomId } }: { params: { roomId: string 
       initialPresence={{
         id: Date.now().toString(16),
         username: uniqueNamesGenerator({ dictionaries: [adjectives, colors, animals], length: 2, separator: "-", seed: Date.now() }),
+        isSpectator: false,
       }}
       initialStorage={{ data: new LiveObject({ estimates: new LiveMap(), estimatesRevealed: false }) }}
     >

@@ -40,13 +40,14 @@ export function Room() {
   );
 
   return (
-    <div className="flex flex-col gap-8">
-      <ol className="grid w-full max-w-lg grid-cols-2 grid-rows-4 gap-4 mx-auto md:grid-cols-4 md:grid-rows-2">
+    <div className="flex flex-col items-center gap-12">
+      <ol className="grid w-full max-w-lg grid-cols-2 grid-rows-4 gap-4 md:grid-cols-4 md:grid-rows-2">
         {estimationValues.map((val) => (
           <li key={val} className="aspect-video">
             <button
+              disabled={presence.isSpectator}
               onClick={() => updateEstimate(val)}
-              className={`flex items-center justify-center w-full h-full text-2xl font-bold text-gray-100 transition-colors bg-gray-500 border rounded-md shadow-md hover:bg-gray-400 ${
+              className={`flex disabled:opacity-75 disabled:cursor-not-allowed items-center justify-center w-full h-full text-2xl font-bold text-gray-100 transition-colors bg-gray-500 border rounded-md shadow-md hover:bg-gray-400 ${
                 selfEstimate === val ? "border-green-500 border-4" : "border-gray-300"
               }`}
             >
@@ -55,27 +56,36 @@ export function Room() {
           </li>
         ))}
       </ol>
-      <div className="flex items-center justify-center gap-4">
+      <div className="grid w-full max-w-lg grid-cols-2 grid-rows-2 md:grid-cols-4 md:grid-rows-1 gap-4">
         <button
-          className="px-4 py-2 text-gray-100 transition-colors bg-gray-500 border border-gray-300 rounded-md shadow-md hover:bg-gray-400"
+          className="px-4 font-bold py-2 text-gray-900 transition-colors bg-white border border-gray-300 rounded-md shadow-md hover:bg-gray-100"
           onClick={() => setEstimatesRevealed(!estimatesRevealed)}
         >
           {estimatesRevealed ? "Hide all" : "Reveal all"}
         </button>
         <button
-          className="px-4 py-2 text-gray-100 transition-colors bg-gray-500 border border-gray-300 rounded-md shadow-md hover:bg-gray-400"
+          className="px-4 font-bold py-2 text-gray-900 transition-colors bg-white border border-gray-300 rounded-md shadow-md hover:bg-gray-100"
           onClick={clearEstimate}
         >
           Clear
         </button>
         <button
-          className="px-4 py-2 text-gray-100 transition-colors bg-gray-500 border border-gray-300 rounded-md shadow-md hover:bg-gray-400"
+          className="px-4 font-bold py-2 text-gray-900 transition-colors bg-white border border-gray-300 rounded-md shadow-md hover:bg-gray-100"
           onClick={() => {
             setEstimatesRevealed(false);
             clearEstimates();
           }}
         >
           Clear all
+        </button>
+        <button
+          className="px-4 font-bold py-2 text-gray-900 transition-colors bg-white border border-gray-300 rounded-md shadow-md hover:bg-gray-100"
+          onClick={() => {
+            updatePresence({ isSpectator: !presence.isSpectator });
+            clearEstimate();
+          }}
+        >
+          {presence.isSpectator ? "Participate" : "Spectate"}
         </button>
       </div>
     </div>

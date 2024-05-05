@@ -46,7 +46,7 @@ export default function UserAvatarDisplay({ style = "open-peeps" }: { style?: st
           }`}
           style={{ zIndex: 50 - index }}
         >
-          {estimatesRevealed ? (
+          {estimatesRevealed && !isSpectator ? (
             <div className="flex items-center justify-center w-full h-full text-xl font-bold">{estimates.get(userId) ?? "?"}</div>
           ) : (
             <>

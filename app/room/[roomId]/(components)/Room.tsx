@@ -15,10 +15,14 @@ export function Room() {
   const estimatesRevealed = useStorage((storage) => storage.data.estimatesRevealed);
 
   useEffect(() => {
-    if (userInfo.username && userInfo.username !== presence.username) {
-      updatePresence({ username: userInfo.username });
+    if (userInfo.username !== presence.username) {
+      if (userInfo.username) {
+        updatePresence({ username: userInfo.username });
+      } else {
+        setUserInfo({ ...userInfo, username: presence.username });
+      }
     }
-  }, [userInfo.username, presence.username, updatePresence]);
+  }, [userInfo, presence.username, updatePresence, setUserInfo]);
 
   useEffect(() => {
     if (!userInfo.id) {

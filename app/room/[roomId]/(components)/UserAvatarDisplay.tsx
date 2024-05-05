@@ -1,6 +1,17 @@
 import { useSessionStorage } from "@/app/utils/useSessionStorage";
 import { useOthers, useSelf, useStorage } from "@/liveblocks.config";
 import Image from "next/image";
+import { useEffect } from "react";
+import confetti from "canvas-confetti";
+
+const fireConfetti = (particleRatio: number, opts: Partial<confetti.Options>) => {
+  var count = 200;
+  confetti({
+    origin: { y: 0.7 },
+    ...opts,
+    particleCount: Math.floor(count * particleRatio),
+  });
+};
 
 export default function UserAvatarDisplay({ style = "open-peeps" }: { style?: string }) {
   const [userInfo, setUserInfo] = useSessionStorage<{ username?: string; id?: string }>("userData", {});
@@ -24,6 +35,35 @@ export default function UserAvatarDisplay({ style = "open-peeps" }: { style?: st
       setUserInfo({ ...userInfo, username: input });
     }
   };
+
+  useEffect(() => {
+    if (estimatesRevealed) {
+      if ([...estimates.values()].every((e) => e === estimates.get(presence.id))) {
+        fireConfetti(0.25, {
+          spread: 26,
+          startVelocity: 55,
+        });
+        fireConfetti(0.2, {
+          spread: 60,
+        });
+        fireConfetti(0.35, {
+          spread: 100,
+          decay: 0.91,
+          scalar: 0.8,
+        });
+        fireConfetti(0.1, {
+          spread: 120,
+          startVelocity: 25,
+          decay: 0.92,
+          scalar: 1.2,
+        });
+        fireConfetti(0.1, {
+          spread: 120,
+          startVelocity: 45,
+        });
+      }
+    }
+  }, [estimatesRevealed, estimates, presence.id]);
 
   const Avatar = ({
     username = "Unknown",
